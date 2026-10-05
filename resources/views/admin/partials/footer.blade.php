@@ -1,0 +1,1 @@
+<footer class="admin-footer"><span>© 2026 Sun Leisure World · Super Admin Panel</span><span>Version 1.0</span></footer>
