@@ -31,11 +31,21 @@
       request()->is('admin/supplier-payments') ||
       request()->is('admin/supplier-payments/*');
 
+    $AddPackagePayment =
+      request()->is('admin/add-package-payment') ||
+      request()->is('admin/add-package-payment/*');
+
+    $PackageProfitReport =
+      request()->is('admin/package-profit-report') ||
+      request()->is('admin/package-profit-report/*');
+
     $financeOpen =
       $allBookingsActive ||
       $agentSummaryActive ||
       $sourceSummaryActive ||
-      $supplierPaymentActive;
+      $supplierPaymentActive ||
+      $AddPackagePayment ||
+      $PackageProfitReport;
 
 
     /*Agents*/
@@ -104,9 +114,11 @@
         <a href="#">Reports </a>
         <a href="{{ url('admin/bookings') }}" class="{{ $allBookingsActive ? 'active' : '' }}">All Bookings</a>
         <a href="{{ url('admin/agent-booking-summary') }}" class="{{ $agentSummaryActive ? 'active' : '' }}">Agent Booking Summaries</a>
-        <a href="#">Transactions</a>
+        {{-- <a href="#">Transactions</a> --}}
         <a href="{{ url('admin/source-summary') }}" class="{{ $sourceSummaryActive ? 'active' : '' }}">Source Summaries</a>
         <a href="{{ url('admin/supplier-payments') }}" class="{{ $supplierPaymentActive ? 'active' : '' }}">Supplier Payments</a>
+        <a href="{{ url('admin/add-package-payment') }}" class="{{ $AddPackagePayment ? 'active' : '' }}">Add Package Payment</a>
+        <a href="{{ url('admin/package-profit-report') }}" class="{{ $PackageProfitReport ? 'active' : '' }}">Package Profit Report</a>
       </div>
     </div>
     <!--Agents-->

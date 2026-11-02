@@ -620,3 +620,37 @@ button {
     text-align: center;
   }
 }
+
+/* Fixed Header - New Override */
+body .admin-wrapper > .admin-main > .admin-header {
+    position: fixed !important;
+    top: 0 !important;
+    left: 268px !important;
+    right: 0 !important;
+    width: auto !important;
+    height: 76px !important;
+    z-index: 1060 !important;
+    background: #fff !important;
+}
+
+/* Content spacing */
+body .admin-wrapper > .admin-main {
+    padding-top: 76px !important;
+}
+
+/* Tablet and mobile */
+@media (max-width: 991.98px) {
+    body .admin-wrapper > .admin-main > .admin-header {
+        left: 0 !important;
+    }
+}
+
+@media (max-width: 767.98px) {
+    body .admin-wrapper > .admin-main > .admin-header {
+        height: 68px !important;
+    }
+
+    body .admin-wrapper > .admin-main {
+        padding-top: 68px !important;
+    }
+}

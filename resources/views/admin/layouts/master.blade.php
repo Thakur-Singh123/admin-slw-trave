@@ -6,6 +6,7 @@
     <title>Dashboard | SLW Super Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/2.3.4/css/dataTables.bootstrap5.min.css" rel="stylesheet">
     <link href="{{ asset('public/assets/css/common.css') }}" rel="stylesheet">
     <link href="{{ asset('public/assets/css/dashboard.css') }}" rel="stylesheet">
     <link href="{{ asset('public/assets/css/agent-list.css') }}" rel="stylesheet">
@@ -18,6 +19,8 @@
     <link href="{{ asset('public/assets/css/source-summary.css') }}" rel="stylesheet">
     <link href="{{ asset('public/assets/css/agent-booking-summary.css') }}" rel="stylesheet">
     <link href="{{ asset('public/assets/css/supplier-payment.css') }}" rel="stylesheet">
+    <link href="{{ asset('public/assets/css/package-profit-report.css') }}" rel="stylesheet">
+    <link href="{{ asset('public/assets/css/package-payment-add.css') }}" rel="stylesheet">
   </head>
   <body>
     <div class="admin-wrapper">
@@ -36,7 +39,9 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.20.0/dist/jquery.validate.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+    {{--<script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>--}}
+    <script src="https://cdn.datatables.net/2.3.4/js/dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/2.3.4/js/dataTables.bootstrap5.min.js"></script>
     <script src="{{ asset('public/assets/js/custom-ajax.js') }}"></script>
     <script src="{{ asset('public/assets/js/custom-script.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -47,6 +52,8 @@
     <script src="{{ asset('public/assets/js/agent-subscriber-list.js') }}"></script>
     <script src="{{ asset('public/assets/js/all-bookings.js') }}"></script>
     <script src="{{ asset('public/assets/js/source-summary.js') }}"></script>
+    <script src="{{ asset('public/assets/js/package-profit-report.js') }}"></script>
+    <script src="{{ asset('public/assets/js/package-payment-add.js') }}"></script>
     <script>
       $(document).ready(function () {
         $('#agentBookingTable').DataTable({

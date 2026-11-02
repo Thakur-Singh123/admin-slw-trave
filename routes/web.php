@@ -56,4 +56,17 @@ Route::middleware(['auth','role:admin,finance'])->group(function () {
     //Supplier payments
     Route::get('admin/supplier-payments', [App\Http\Controllers\Admin\Finance\SupplierPaymentController::class, 'index'])->name('admin.supplier.payments');
     Route::post('admin/supplier-payment/update', [App\Http\Controllers\Admin\Finance\SupplierPaymentController::class, 'update_payment'])->name('admin.supplier.payment.update');
+    //Package payment
+    Route::get('admin/package-profit-report', [App\Http\Controllers\Admin\Finance\PackageBookingFinanceController::class, 'index'])->name('admin.package-payment.index');
+    Route::get('admin/add-package-payment', [App\Http\Controllers\Admin\Finance\PackageBookingFinanceController::class, 'create'])->name('admin.package-payment.create');
+    Route::post('admin/package-payment-save', [App\Http\Controllers\Admin\Finance\PackageBookingFinanceController::class, 'store'])->name('admin.package-payment.store');
+    Route::get('admin/edit-package-payment/{id}', [App\Http\Controllers\Admin\Finance\PackageBookingFinanceController::class, 'edit'])->name('admin.edit.package-payment');
+    Route::post('admin/package-payment-update/{id}', [App\Http\Controllers\Admin\Finance\PackageBookingFinanceController::class, 'update'])->name('admin.package-payment.update');
+    Route::post('admin/package-payment-delete/{id}', [App\Http\Controllers\Admin\Finance\PackageBookingFinanceController::class, 'destroy'])->name('admin.package-payment.delete');
+    Route::post('admin/package-payment-transaction', [App\Http\Controllers\Admin\Finance\PackageBookingFinanceController::class, 'storePayment'])->name('admin.package-payment.transaction.store');
+    //Export
+    Route::get('admin/package-profit-report/export', [App\Http\Controllers\Admin\Finance\PackageBookingFinanceController::class, 'export'])->name('admin.package-payment.export');
+    //Invoice
+    Route::get('admin/package-payment/invoice/{id}', [App\Http\Controllers\Admin\Finance\PackageBookingFinanceController::class, 'invoice'])->name('admin.package-payment.invoice');
+    Route::get('admin/package-payment/invoice/booking/{id}/{type}', [App\Http\Controllers\Admin\Finance\PackageBookingFinanceController::class, 'initialInvoice'])->whereIn('type', ['customer', 'supplier'])->name('admin.package-payment.initial-invoice');
 });
