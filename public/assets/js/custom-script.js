@@ -1012,6 +1012,11 @@ $(document).ready(function () {
         });
     }
     $(document)
+    .off('change.supplier', '#supplierFromDate, #supplierToDate')
+    .on('change.supplier', '#supplierFromDate, #supplierToDate', function () {
+        loadSupplierPayments();
+    });
+    $(document)
         .off(
             'click.supplier',
             '#searchSlwBooking'

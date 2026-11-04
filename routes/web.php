@@ -56,6 +56,9 @@ Route::middleware(['auth','role:admin,finance'])->group(function () {
     //Supplier payments
     Route::get('admin/supplier-payments', [App\Http\Controllers\Admin\Finance\SupplierPaymentController::class, 'index'])->name('admin.supplier.payments');
     Route::post('admin/supplier-payment/update', [App\Http\Controllers\Admin\Finance\SupplierPaymentController::class, 'update_payment'])->name('admin.supplier.payment.update');
+    //Invoice
+    Route::get('admin/supplier-invoice/{id}', [App\Http\Controllers\Admin\Finance\SupplierInvoiceController::class, 'show'])->name('admin.supplier.invoice');
+    Route::get('admin/supplier-invoice-single/{id}', [App\Http\Controllers\Admin\Finance\SupplierInvoiceController::class, 'show_single'])->name('admin.supplier.invoice.single');
     //Package payment
     Route::get('admin/package-profit-report', [App\Http\Controllers\Admin\Finance\PackageBookingFinanceController::class, 'index'])->name('admin.package-payment.index');
     Route::get('admin/add-package-payment', [App\Http\Controllers\Admin\Finance\PackageBookingFinanceController::class, 'create'])->name('admin.package-payment.create');

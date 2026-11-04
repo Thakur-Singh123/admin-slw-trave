@@ -28,6 +28,7 @@ class SupplierPaymentController extends Controller
             'total_amount',
             'status',
             'payment_status',
+            'paid_payment_date',
             'currency',
             'supplier_name',
             'assign_supplier',
@@ -87,35 +88,48 @@ class SupplierPaymentController extends Controller
                 $request->supplier
             );
         }
+        // if ($request->filled('payment_status')) {
+        //     if (
+        //         $request->payment_status === 'Paid'
+        //     ) {
+        //         $query->whereRaw(
+        //             'UPPER(status) = ?',
+        //             ['CONFIRMED']
+        //         );
+        //     } elseif (
+        //         $request->payment_status === 'Unpaid'
+        //     ) {
+        //         $query->where(function ($q) {
+        //             $q->whereRaw(
+        //                 'UPPER(status) = ?',
+        //                 ['PENDING']
+        //             )
+        //             ->orWhereRaw(
+        //                 'UPPER(status) = ?',
+        //                 ['CANCEL']
+        //             )
+        //             ->orWhereRaw(
+        //                 'UPPER(status) = ?',
+        //                 ['CANCELLED']
+        //             );
+        //         });
+        //     } elseif (
+        //         $request->payment_status === 'Partially Paid'
+        //     ) {
+        //         $query->whereRaw('1 = 0');
+        //     }
+        // }
         if ($request->filled('payment_status')) {
-            if (
-                $request->payment_status === 'Paid'
-            ) {
-                $query->whereRaw(
-                    'UPPER(status) = ?',
-                    ['CONFIRMED']
-                );
-            } elseif (
-                $request->payment_status === 'Unpaid'
-            ) {
+            if ($request->payment_status === 'Paid') {
+                $query->whereRaw('LOWER(TRIM(payment_status)) = ?', ['paid']);
+            } elseif ($request->payment_status === 'Partially Paid') {
+                $query->whereRaw('LOWER(TRIM(payment_status)) = ?', ['partially paid']);
+            } elseif ($request->payment_status === 'Unpaid') {
                 $query->where(function ($q) {
-                    $q->whereRaw(
-                        'UPPER(status) = ?',
-                        ['PENDING']
-                    )
-                    ->orWhereRaw(
-                        'UPPER(status) = ?',
-                        ['CANCEL']
-                    )
-                    ->orWhereRaw(
-                        'UPPER(status) = ?',
-                        ['CANCELLED']
-                    );
+                    $q->whereNull('payment_status')
+                    ->orWhere('payment_status', '')
+                    ->orWhereRaw('LOWER(TRIM(payment_status)) = ?', ['unpaid']);
                 });
-            } elseif (
-                $request->payment_status === 'Partially Paid'
-            ) {
-                $query->whereRaw('1 = 0');
             }
         }
         //PAGINATION
@@ -124,26 +138,36 @@ class SupplierPaymentController extends Controller
             ->paginate(20)
             ->withQueryString();
         //SUPPLIERS
-        $supplierIds = $orders
-            ->getCollection()
-            ->pluck('assign_supplier')
-            ->filter()
-            ->unique()
-            ->values();
-        $suppliers = collect();
-        if ($supplierIds->isNotEmpty()) {
-            $suppliers = AddSupplier::query()
-                ->select([
-                    'add_supplier_id',
-                    'name'
-                ])
-                ->whereIn(
-                    'add_supplier_id',
-                    $supplierIds
-                )
-                ->get()
-                ->keyBy('add_supplier_id');
-        }
+        // $supplierIds = $orders
+        //     ->getCollection()
+        //     ->pluck('assign_supplier')
+        //     ->filter()
+        //     ->unique()
+        //     ->values();
+        // $suppliers = collect();
+        // if ($supplierIds->isNotEmpty()) {
+        //     $suppliers = AddSupplier::query()
+        //         ->select([
+        //             'add_supplier_id',
+        //             'name'
+        //         ])
+        //         ->whereIn(
+        //             'add_supplier_id',
+        //             $supplierIds
+        //         )
+        //         ->get()
+        //         ->keyBy('add_supplier_id');
+        // }
+        //SUPPLIERS (all suppliers for dropdown + name lookup)
+        $suppliers = AddSupplier::query()
+            ->select([
+                'add_supplier_id',
+                'name'
+            ])
+            ->whereNotNull('add_supplier_id')
+            ->orderBy('name')
+            ->get()
+            ->keyBy('add_supplier_id');
         //BOOKING DATA
         $bookings = $orders
             ->getCollection()
@@ -307,6 +331,7 @@ class SupplierPaymentController extends Controller
                     'status' =>
                         $paymentStatus,
                         'payment_status' => $paymentStatus,
+                        'payment_date' => $order->paid_payment_date,
                     'order_status' =>
                         $status,
                 ];

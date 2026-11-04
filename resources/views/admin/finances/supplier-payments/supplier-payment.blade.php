@@ -352,11 +352,26 @@
                                 </strong>
                             </td>
                             {{-- Sale --}}
-                            <td data-order="{{ $booking['sell'] }}">
+                            {{-- <td data-order="{{ $booking['sell'] }}">
                                 <strong class="sale-amount">
                                     {{ $booking['currency'] }}
                                     {{ number_format($booking['sell'], 2) }}
                                 </strong>
+                            </td> --}}
+                            {{-- Sale --}}
+                            <td data-order="{{ $booking['sell'] }}">
+                                <a
+                                    href="{{ url('/admin/supplier-invoice-single/' . $booking['id']) }}"
+                                    target="_blank"
+                                    rel="noopener"
+                                    class="sale-amount-link"
+                                    title="View invoice of this booking only"
+                                >
+                                    <strong class="sale-amount">
+                                        {{ $booking['currency'] }}
+                                        {{ number_format($booking['sell'], 2) }}
+                                    </strong>
+                                </a>
                             </td>
                             {{-- Profit --}}
                             <td data-order="{{ $profit }}">
@@ -367,10 +382,19 @@
                             </td>
                             {{-- Payment --}}
                             <td>
-                              <span class="payment-status {{ $statusClass }}">
+                              {{-- <span class="payment-status {{ $statusClass }}">
+                                <i></i>
+                                {{ $booking['payment_status'] }}
+                            </span> --}}
+                            <span class="payment-status {{ $statusClass }}">
                                 <i></i>
                                 {{ $booking['payment_status'] }}
                             </span>
+                            @if(strtolower(trim($booking['payment_status'] ?? '')) === 'paid' && !empty($booking['payment_date']))
+                                <small class="paid-date">
+                                    {{ \Carbon\Carbon::parse($booking['payment_date'])->format('d, M Y') }}
+                                </small>
+                            @endif
                                 <small>
                                     Paid:
                                     {{ $booking['currency'] }}
@@ -820,6 +844,13 @@
 #supplierPaymentModal form::-webkit-scrollbar-thumb {
     background: #c8c8c8;
     border-radius: 10px;
+}
+.paid-date {
+    display: block;
+    margin-top: 5px;
+    font-size: 11px;
+    color: #8492a6;
+    font-weight: 500;
 }
 @keyframes supplierPaymentSpin {
     to {
